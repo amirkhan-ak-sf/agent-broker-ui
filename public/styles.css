@@ -165,6 +165,33 @@ body {
   white-space: pre-wrap;
 }
 
+/* --- Processing (typing) indicator --- */
+.msg-bubble--processing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spinner {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.processing-text {
+  color: var(--text-muted);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* --- Input --- */
 .chat-input-wrap {
   flex-shrink: 0;

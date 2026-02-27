@@ -31,6 +31,8 @@
   function extractBrokerResponse(data) {
     const result = data?.result;
     let text = '';
+
+    // Text from result.artifacts (e.g. when state is "completed")
     const artifacts = result?.artifacts || [];
     for (let i = 0; i < artifacts.length; i++) {
       const parts = artifacts[i].parts || [];
@@ -40,6 +42,17 @@
         }
       }
     }
+
+    // When state is "input-required", text is in result.status.message.parts
+    if (!text && result?.status?.message?.parts) {
+      const parts = result.status.message.parts;
+      for (let k = 0; k < parts.length; k++) {
+        if (parts[k].kind === 'text' && parts[k].text) {
+          text += (text ? '\n\n' : '') + parts[k].text;
+        }
+      }
+    }
+
     if (!text) text = '(No text in response.)';
     return {
       text,
@@ -192,20 +205,24 @@
       const data = await res.json().catch(function () { return {}; });
 
       if (!res.ok) {
+        removeProcessing(processingEl);
         appendError(data.error?.message || data.error || res.statusText || 'Request failed');
         setLoading(false);
         return;
       }
 
       if (data.error) {
+        removeProcessing(processingEl);
         appendError(data.error.message || JSON.stringify(data.error));
         setLoading(false);
         return;
       }
 
+      removeProcessing(processingEl);
       const { text: answerText, state, timestamp } = extractBrokerResponse(data);
       appendMessage('assistant', answerText, { state, timestamp });
     } catch (err) {
+      removeProcessing(processingEl);
       appendError(err.message || 'Network error');
     } finally {
       setLoading(false);
