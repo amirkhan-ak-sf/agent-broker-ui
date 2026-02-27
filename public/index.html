@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Broker Chat</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="chat-header">
+      <h1 class="chat-title">Agent Broker</h1>
+      <button type="button" class="btn-icon btn-settings" id="btn-settings" title="Configuration" aria-label="Configuration">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </header>
+
+    <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
+      <div id="chat-empty" class="chat-empty">Send a message to start the conversation. Open <button type="button" class="link" id="open-settings-from-empty">Settings</button> to set your broker URL.</div>
+    </div>
+
+    <div class="chat-input-wrap">
+      <form id="chat-form" class="chat-form">
+        <textarea id="chat-input" class="chat-input" rows="1" placeholder="Type a message..." maxlength="10000" aria-label="Message"></textarea>
+        <button type="submit" class="btn-send" id="btn-send" aria-label="Send">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <dialog id="config-dialog" class="config-dialog" aria-labelledby="config-dialog-title">
+    <div class="config-dialog-inner">
+      <h2 id="config-dialog-title" class="config-dialog-title">Configuration</h2>
+      <form id="config-form" class="config-form">
+        <div class="field">
+          <label for="config-broker-url">Broker URL</label>
+          <input type="url" id="config-broker-url" placeholder="https://..." required />
+        </div>
+        <div class="field">
+          <label for="config-api-instance-id">x-anypoint-api-instance-id (optional)</label>
+          <input type="text" id="config-api-instance-id" placeholder="20551771" />
+        </div>
+        <div class="config-actions">
+          <button type="button" class="btn btn-secondary" id="config-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="config-save">Save</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
