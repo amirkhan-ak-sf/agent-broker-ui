@@ -13,8 +13,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Features
 
-- **Configurable broker URL** – Default is the clinical-trial broker; change it to use another broker.
-- **Optional x-anypoint-api-instance-id** – Override in the form if needed.
+- **Configurable broker URL** – Default is the clinical-trial broker; change it in Settings to use another broker.
 - **Dynamic IDs** – Each request uses a generated `id` and `messageId` (UUID).
 - **Response display** – Broker answer text is highlighted; **State** and **Timestamp** are shown as tags.
 - **CORS** – The server sends CORS headers so the app can be used from any origin.
@@ -26,9 +25,8 @@ The frontend sends `POST /api/broker` with JSON:
 ```json
 {
   "brokerUrl": "https://...",
-  "apiInstanceId": "20551771",
   "payload": { "jsonrpc": "2.0", "id": ..., "method": "message/send", "params": { ... } }
 }
 ```
 
-The server forwards `payload` to `brokerUrl` with the appropriate headers and returns the broker response.
+The server forwards `payload` to `brokerUrl` with `Content-Type` and `x-anypoint-api-instance-id` (default `20551771` in `server.js`) and returns the broker response.

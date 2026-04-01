@@ -1,7 +1,6 @@
 (function () {
   const CONFIG_KEY = 'agent-broker-config';
   const DEFAULT_BROKER_URL = 'https://agent-network-ingress-gw-b2jb0y.1d6nel.usa-e1.cloudhub.io/clinical-trial-broker/';
-  const DEFAULT_API_INSTANCE_ID = '20551771';
 
   function escapeHtml(str) {
     if (str == null) return '';
@@ -16,12 +15,11 @@
       if (raw) {
         const c = JSON.parse(raw);
         return {
-          brokerUrl: c.brokerUrl || DEFAULT_BROKER_URL,
-          apiInstanceId: c.apiInstanceId ?? DEFAULT_API_INSTANCE_ID
+          brokerUrl: c.brokerUrl || DEFAULT_BROKER_URL
         };
       }
     } catch (_) {}
-    return { brokerUrl: DEFAULT_BROKER_URL, apiInstanceId: DEFAULT_API_INSTANCE_ID };
+    return { brokerUrl: DEFAULT_BROKER_URL };
   }
 
   function setConfig(config) {
@@ -71,7 +69,6 @@
   const configDialog = document.getElementById('config-dialog');
   const configForm = document.getElementById('config-form');
   const configBrokerUrl = document.getElementById('config-broker-url');
-  const configApiInstanceId = document.getElementById('config-api-instance-id');
   const configCancel = document.getElementById('config-cancel');
 
   function hideEmpty() {
@@ -197,8 +194,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           brokerUrl: config.brokerUrl,
-          payload: payload,
-          apiInstanceId: config.apiInstanceId || undefined
+          payload: payload
         })
       });
 
@@ -232,7 +228,6 @@
   function openConfig() {
     const config = getConfig();
     configBrokerUrl.value = config.brokerUrl;
-    configApiInstanceId.value = config.apiInstanceId || '';
     configDialog.showModal();
   }
 
@@ -246,9 +241,8 @@
   configForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const brokerUrl = configBrokerUrl.value.trim();
-    const apiInstanceId = configApiInstanceId.value.trim();
     if (!brokerUrl) return;
-    setConfig({ brokerUrl, apiInstanceId: apiInstanceId || DEFAULT_API_INSTANCE_ID });
+    setConfig({ brokerUrl });
     closeConfig();
   });
 
